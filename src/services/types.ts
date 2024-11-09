@@ -5,12 +5,13 @@ export class IHasRecordRes {
 export class ICheckPassRes {
   status!: number;
   recordFound!: boolean;
-  dsrData!: object | null;
-  // dsrData!: IDsr | null; // enquire if this is possible or I explore UnionTypes
+  dsrData!: CheckPassResUnion
 }
 
+type CheckPassResUnion = IDsr | ICheckPassRes | null // union type
+
 export class IDsr {
-  _id!: object;
+  _id!: string;
   code!: string;
   password!: string;
   accounId!: string;

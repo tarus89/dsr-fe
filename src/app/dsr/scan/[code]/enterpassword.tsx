@@ -1,9 +1,9 @@
 import DsrAPI from "@/services/api";
-import { ICheckPassRes, IDsr, IResponse } from "@/services/types";
+import { ICheckPassRes, IResponse } from "@/services/types";
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { SetStateAction, useState } from "react";
 
-export default function EnterPassword({ code, onSuccess, }: { code: string, onSuccess: (dsrData: IDsr | IResponse| null)=> void, }) {
+export default function EnterPassword({ code, onSuccess, }: { code: string, onSuccess: (dsrData: ICheckPassRes | IResponse| null)=> void, }) {
   const [recordFound, setRecordFound] = useState<boolean | null>(null);
   const [password, setPassword] = useState("");
 
@@ -22,7 +22,7 @@ export default function EnterPassword({ code, onSuccess, }: { code: string, onSu
       );
       console.log("got Res:", res);
       if( res.recordFound ) {
-        onSuccess(res.dsrData)
+        onSuccess(res.dsrData as ICheckPassRes)
       } else {
         setRecordFound(false);
       }

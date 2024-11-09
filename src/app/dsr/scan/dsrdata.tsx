@@ -20,7 +20,7 @@ export default function DsrDataView({ dsr }: { dsr: IDsr }) {
         <Typography variant="body1" fontWeight="bold">
           ID:
         </Typography>
-        <Typography variant="body1">{!dsr._id}</Typography> 
+        <Typography variant="body1">{dsr._id}</Typography> 
       </Box>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Typography variant="body1" fontWeight="bold">
