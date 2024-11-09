@@ -1,7 +1,28 @@
-import { IDsr } from "@/services/types";
+import { CheckPassResUnion, IDsr } from "@/services/types";
 import { Box, Typography } from "@mui/material";
+import ScanQrCode from "./[code]/scanqr";
 
-export default function DsrDataView({ dsr }: { dsr: IDsr }) {
+export default function DsrDataView({
+  dsr,
+  code,
+}: {
+  dsr: IDsr;
+  code: string;
+}) {
+  console.log("Is Passwordless: ", dsr.isPasswordless);
+  const isPasswordless = dsr?.isPasswordless;
+  const remainingTimeInMicroSeconds = dsr?.expireOn - Date.now();
+
+  console.log("Is Passwordless => ", isPasswordless);
+  console.log("Remaining Time (Microseconds) => ", remainingTimeInMicroSeconds);
+
+  setTimeout(() => {
+    console.log(
+      "####################################### Switching Views ####################################"
+    );
+    window.location.href = `/dsr/scan/${code}`;
+  }, remainingTimeInMicroSeconds);
+
   return (
     <Box
       sx={{
@@ -20,7 +41,7 @@ export default function DsrDataView({ dsr }: { dsr: IDsr }) {
         <Typography variant="body1" fontWeight="bold">
           ID:
         </Typography>
-        <Typography variant="body1">{dsr._id}</Typography> 
+        <Typography variant="body1">{dsr._id}</Typography>
       </Box>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Typography variant="body1" fontWeight="bold">

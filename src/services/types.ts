@@ -1,6 +1,7 @@
 export class IHasRecordRes {
   hasRecord!: boolean;
   isPasswordless!: boolean;
+  record!: IDsr | null;
 }
 export class ICheckPassRes {
   status!: number;
@@ -8,7 +9,9 @@ export class ICheckPassRes {
   dsrData!: CheckPassResUnion
 }
 
-type CheckPassResUnion = IDsr | ICheckPassRes | null // union type
+export type CheckPassResUnion = IDsr | ICheckPassRes | null // union type
+
+export type ICheckPassResMessUnion = ICheckPassRes | IResponse | null // union type
 
 export class IDsr {
   _id!: string;

@@ -1,12 +1,17 @@
 import DsrAPI from "@/services/api";
-import { ICheckPassRes, IResponse } from "@/services/types";
+import { CheckPassResUnion, ICheckPassRes } from "@/services/types";
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { SetStateAction, useState } from "react";
 
-export default function EnterPassword({ code, onSuccess, }: { code: string, onSuccess: (dsrData: ICheckPassRes | IResponse| null)=> void, }) {
+export default function EnterPassword({
+  code,
+  onSuccess,
+}: {
+  code: string;
+  onSuccess: (dsrData: CheckPassResUnion ) => void;
+}) {
   const [recordFound, setRecordFound] = useState<boolean | null>(null);
   const [password, setPassword] = useState("");
-
 
   const handlePasswordChange = (event: {
     target: { value: SetStateAction<string> };
@@ -21,12 +26,11 @@ export default function EnterPassword({ code, onSuccess, }: { code: string, onSu
         password
       );
       console.log("got Res:", res);
-      if( res.recordFound ) {
-        onSuccess(res.dsrData as ICheckPassRes)
+      if (res.recordFound) {
+        onSuccess(res.dsrData);
       } else {
         setRecordFound(false);
       }
-      
     }
     return;
   };
@@ -90,23 +94,12 @@ export default function EnterPassword({ code, onSuccess, }: { code: string, onSu
         />
 
         {/* Res Message */}
-        {
-            (recordFound != null && !recordFound) &&
-                <Typography color="error.main" sx={{ marginBottom: 2 }}>
-                    Please input the correct password!
-                </Typography>
-        }
-        {/* {resMessage !== 0 &&
-          (resMessage === 200 ? (
-            <Typography color="success.main" sx={{ marginBottom: 2 }}>
-              Customer record found!
-            </Typography>
-          ) : (
-            <Typography color="error.main" sx={{ marginBottom: 2 }}>
-              Please input the correct password!
-            </Typography>
-          ))} */}
-
+        {recordFound != null && !recordFound && (
+          <Typography color="error.main" sx={{ marginBottom: 2 }}>
+            Please input the correct password!
+          </Typography>
+        )}
+        
         {/* Submit Button */}
         <Button
           onClick={submitPassword}

@@ -1,10 +1,20 @@
 export default class DsrGraph {
-  // add dsr
   static hasRecord = `
         query HasRecord($code: String!) {
             hasRecord(code: $code) {
                 hasRecord
                 isPasswordless
+                record{
+                      _id
+                      code
+                      password
+                      accounId
+                      shareFrom
+                      shareTo
+                      practionerEmails
+                      expireOn
+                      isPasswordless
+                }
             }
         }
     `;

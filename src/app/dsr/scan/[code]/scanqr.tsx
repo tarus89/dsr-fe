@@ -1,11 +1,12 @@
 import DsrAPI from "@/services/api";
+import { CheckPassResUnion } from "@/services/types";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import QRCode from "react-qr-code";
 
 
-type IProps = { setHasPassword: (b: boolean)=> void, code:string,}
-export default function ScanQrCode({ code, setHasPassword, }: IProps){
+type IProps = { setHasPassword: (b: boolean)=> void, code:string,setData: (br:CheckPassResUnion) => void}
+export default function ScanQrCode({ code, setHasPassword,setData }: IProps){
     const [loading, setLoading] = useState(false)
 
     const initialDelay = 50000; // delay of 50 seconds before execution
@@ -32,11 +33,12 @@ export default function ScanQrCode({ code, setHasPassword, }: IProps){
 
         setLoading(true)
         console.log("Button clicked", code);
-        const { hasRecord, isPasswordless } = await DsrAPI.hasRecord(code as string);
+        const { hasRecord, isPasswordless, record } = await DsrAPI.hasRecord(code as string);
         console.log("Has record", hasRecord);
         console.log("Is Passwordless", isPasswordless);
         setLoading(false)
         setHasPassword(!isPasswordless)
+        setData(record)
     }
 
 

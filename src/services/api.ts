@@ -21,8 +21,9 @@ export default class DsrAPI {
     );
     const hasRecord = data?.hasRecord?.hasRecord || false;
     const isPasswordless = data?.hasRecord?.isPasswordless || false;
+    const record = data?.hasRecord?.record || null;
 
-    return { hasRecord, isPasswordless };
+    return { hasRecord, isPasswordless, record };
   }
 
   static fetchPassApi = async (

@@ -5,19 +5,17 @@ import { useState } from "react";
 import ScanQrCode from "./scanqr";
 import EnterPassword from "./enterpassword";
 import DsrDataView from "../dsrdata";
-import { IDsr, IResponse } from "@/services/types";
+import { CheckPassResUnion, IDsr } from "@/services/types";
 
 export default function ScanCode() {
   const [hasPassword, setHasPassword] = useState(false);
-  const [data, setData] = useState<IDsr | IResponse | null>(null);
+  const [data, setData] = useState<CheckPassResUnion>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const { code } = useParams();
 
-  const setDsrData = (dsrData: IDsr | IResponse | null): void => {
-    console.log("Passed DsrData: ", dsrData);
+  const setDsrData = (dsrData: CheckPassResUnion): void => {
     setIsLoading(true);
-    console.log("Dsr Data --->", dsrData);
     setData(dsrData);
     setIsLoading(false);
   };
@@ -30,7 +28,7 @@ export default function ScanCode() {
     );
   }
   if (data) {
-    return <DsrDataView dsr={data as IDsr} />;
+    return <DsrDataView dsr={data as IDsr} code={code as string} />;
   }
 
   if (!hasPassword) {
@@ -42,13 +40,16 @@ export default function ScanCode() {
 
           setHasPassword(b);
         }}
+        setData={function (dsrData: CheckPassResUnion): void {
+          setData(dsrData);
+        }}
       />
     );
   }
   if (hasPassword) {
     return (
       <EnterPassword
-        onSuccess={(dsrData: IDsr | IResponse | null) => {
+        onSuccess={(dsrData: CheckPassResUnion) => {
           console.log("password auth worked get dsr now ");
           setDsrData(dsrData);
         }}
